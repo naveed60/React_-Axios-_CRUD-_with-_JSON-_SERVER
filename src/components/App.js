@@ -4,12 +4,30 @@ import "./App.css";
 import Header from "./Header";
 import AddContact from "./AddContact";
 import ContactList from "./ContactList";
+import EditContact from "./EditContact";
 
 function App() {
+  const [selectedContact, setSelectedContact] = useState(null);
+
   const LOCAL_STORAGE_KEY = "contacts";
   const [contacts, setContacts] = useState(
     JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) ?? []
   );
+   
+
+  const editContactHandler = (id) => {
+    const selected = contacts.find((contact) => contact.id === id);
+    setSelectedContact(selected);
+  };
+
+  const updateContactHandler = (id, updatedContact) => {
+    const updatedContacts = contacts.map((contact) =>
+      contact.id === id ? { ...contact, ...updatedContact } : contact
+    );
+
+    setContacts(updatedContacts);
+    setSelectedContact(null);
+  };
 
   const addContactHandler = (contact) => {
     console.log(contact);
@@ -37,7 +55,14 @@ function App() {
     <div className="ui container">
       <Header />
       <AddContact addContactHandler={addContactHandler} />
-      <ContactList contacts={contacts} getContactId={removeContactHandler} />
+      <ContactList contacts={contacts} getContactId={removeContactHandler}
+        editContactHandler={editContactHandler} />
+        {selectedContact && (
+      <EditContact
+          contactToEdit={selectedContact}
+          editContactHandler={updateContactHandler}
+      />
+      )}
     </div>
   );
 }
