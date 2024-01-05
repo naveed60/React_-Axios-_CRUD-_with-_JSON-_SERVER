@@ -1,25 +1,20 @@
 import React from "react";
-import user from "../images/user.png";
 
-const ContactCard = (props) => {
-  const { id, name, email } = props.contact;
+const ContactCard = ({ contact, deleteHandler, editHandler }) => {
   return (
     <div className="item">
-      <img className="ui avatar image" src={user} alt="user" />
       <div className="content">
-        <div className="header">{name}</div>
-        <div>{email}</div>
+        <div className="header">{contact.name}</div>
+        <div>{contact.email}</div>
       </div>
-      <i
-        className="trash alternate outline icon"
-        style={{ color: "red", marginTop: "7px", marginLeft: "10px" }}
-        onClick={() => props.clickHander(id)}
-      ></i>
-       <i
-        className="edit alternate outline icon"
-        style={{ color: "red", marginTop: "7px" }}
-        onClick={() => props.clickHander(id)}
-      ></i>
+      <div className="right floated content">
+        <button className="ui button blue" onClick={() => editHandler(contact.id)}>
+          Edit
+        </button>
+        <button className="ui button red" onClick={() => deleteHandler(contact.id)}>
+          Delete
+        </button>
+      </div>
     </div>
   );
 };
