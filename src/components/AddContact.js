@@ -1,50 +1,73 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-class AddContact extends React.Component {
-  state = {
+const AddContact = ({ addContactHandler, editContactHandler, contactToEdit }) => {
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
-  };
+  });
+  const [isEditing, setIsEditing] = useState(false);
 
-  add = (e) => {
+  useEffect(() => {
+    if (contactToEdit) {
+      // Set initial values when component mounts (for editing existing contact)
+      setIsEditing(true);
+      setFormData({
+        name: contactToEdit.name || "",
+        email: contactToEdit.email || "",
+      });
+    } else {
+      setIsEditing(false);
+      setFormData({ name: "", email: "" });
+    }
+  }, [contactToEdit]);
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (this.state.name === "" || this.state.email === "") {
-      alert("ALl the fields are mandatory!");
+    if (formData.name === "" || formData.email === "") {
+      alert("All the fields are mandatory!");
       return;
     }
-    this.props.addContactHandler(this.state);
-    this.setState({ name: "", email: "" });
+
+    if (isEditing) {
+      // Call a function to update the existing contact
+      editContactHandler(contactToEdit.id, formData);
+    } else {
+      // Call a function to add a new contact
+      addContactHandler(formData);
+    }
+
+    // Reset the state after editing or adding
+    setFormData({ name: "", email: "" });
   };
-  render() {
-    return (
-      <div className="ui main">
-        <h2>Add Contact</h2>
-        <form className="ui form" onSubmit={this.add}>
-          <div className="field">
-            <label>Name</label>
-            <input
-              type="text"
-              name="name"
-              placeholder="Name"
-              value={this.state.name}
-              onChange={(e) => this.setState({ name: e.target.value })}
-            />
-          </div>
-          <div className="field">
-            <label>Email</label>
-            <input
-              type="text"
-              name="email"
-              placeholder="Email"
-              value={this.state.email}
-              onChange={(e) => this.setState({ email: e.target.value })}
-            />
-          </div>
-          <button className="ui button blue">Add</button>
-        </form>
-      </div>
-    );
-  }
-}
+
+  return (
+    <div className=" ui main">
+      <h2 >{isEditing ? "Edit Contact" : "Add Contact"}</h2>
+      <form className="ui form" onSubmit={handleSubmit}>
+        <div className="field">
+          <label>Name</label>
+          <input
+            type="text"
+            name="name"
+            placeholder="Name"
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          />
+        </div>
+        <div className="field">
+          <label>Email</label>
+          <input
+            type="text"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          />
+        </div>
+        <button className="ui button blue">{isEditing ? "Update" : "Add"}</button>
+      </form>
+    </div>
+  );
+};
 
 export default AddContact;
