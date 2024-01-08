@@ -4,8 +4,8 @@ const ContactCard = ({ contact, deleteHandler, editHandler }) => {
   return (
     <div className="item">
       <div className="content">
-        <div className="header">{contact.name}</div>
-        <div>{contact.email}</div>
+        <div className="header"> Name : {contact.name}</div>
+        <div>Email : {contact.email}</div>
       </div>
       <div className="right floated content">
         <button className="ui button blue" onClick={() => editHandler(contact.id)}>
