@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import { v4 as uuid } from "uuid";
 import "./App.css";
 import Header from "./Header";
-import AddContact from "./AddContact";
 import ContactList from "./ContactList";
-import EditContact from "./EditContact";
+import AddContact from "./AddContact";
 
 function App() {
   const [selectedContact, setSelectedContact] = useState(null);
@@ -13,7 +12,6 @@ function App() {
   const [contacts, setContacts] = useState(
     JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) ?? []
   );
-   
 
   const editContactHandler = (id) => {
     const selected = contacts.find((contact) => contact.id === id);
@@ -30,7 +28,6 @@ function App() {
   };
 
   const addContactHandler = (contact) => {
-    console.log(contact);
     setContacts([...contacts, { id: uuid(), ...contact }]);
   };
 
@@ -42,11 +39,6 @@ function App() {
     setContacts(newContactList);
   };
 
-  // useEffect(() => {
-  //   const retriveContacts = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-  //   if (retriveContacts) setContacts(retriveContacts);
-  // }, []);
-
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(contacts));
   }, [contacts]);
@@ -54,15 +46,16 @@ function App() {
   return (
     <div className="ui container">
       <Header />
-      <AddContact addContactHandler={addContactHandler} />
-      <ContactList contacts={contacts} getContactId={removeContactHandler}
-        editContactHandler={editContactHandler} />
-        {selectedContact && (
-      <EditContact
-          contactToEdit={selectedContact}
-          editContactHandler={updateContactHandler}
+      <AddContact
+        addContactHandler={addContactHandler}
+        editContactHandler={updateContactHandler}
+        contactToEdit={selectedContact}
       />
-      )}
+      <ContactList
+        contacts={contacts}
+        getContactId={removeContactHandler}
+        editContactHandler={editContactHandler}
+      />
     </div>
   );
 }
