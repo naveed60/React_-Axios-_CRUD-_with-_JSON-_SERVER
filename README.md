@@ -67,6 +67,12 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 ### `npm run build` fails to minify
 
+Admin Module (add, delete  and edit content used in LSD)
+ - Will initially be using AI manually to update CONTENT into TABLES
+- Need understand current design and table structures
+- How does LSD quantify/calculate most utilized Decisions, Factors, Alternatives?
+
+
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 # React_-Axios-_CRUD-_with-_JSON-_SERVER
 # React_-Axios-_CRUD-_with-_JSON-_SERVER
